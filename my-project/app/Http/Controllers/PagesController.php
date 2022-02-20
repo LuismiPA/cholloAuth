@@ -40,7 +40,6 @@ class PagesController extends Controller
                 'descripcion' => 'required',
                 'url' => 'required|url',
                 'categoria' => 'required',
-                'puntuacion' => 'required',
                 'precio' => 'required',
                 'precio_descuento' => 'required',
                 'disponible' => 'required'    
@@ -50,7 +49,6 @@ class PagesController extends Controller
             $cholloNuevo-> descripcion = $request->descripcion;
             $cholloNuevo-> url = $request->url;
             $cholloNuevo-> categoria=$request->categoria;
-            $cholloNuevo-> puntuacion=$request->puntuacion;
             $cholloNuevo-> precio=$request->precio;
             $cholloNuevo-> precio_descuento=$request->precio_descuento;
             $cholloNuevo-> disponible=$request->disponible;
