@@ -12,11 +12,11 @@ class PagesController extends Controller
     {
         /* $chollos = Chollo::all(); */
         if($filtro=="nuevos"){
-            $chollos=Chollo::orderBy('created_at', 'ASC')->paginate(6);
+            $chollos=Chollo::orderBy('updated_at', 'ASC')->paginate(3);
             $titulo="NUESTROS CHOLLOS MAS RECIENTES";
             $title="Chollos nuevos";
         }else if($filtro=="destacados"){
-            $chollos=Chollo::orderBy('precio', 'ASC')->paginate(6);
+            $chollos=Chollo::orderBy('precio', 'ASC')->paginate(3);
             $titulo="NUESTROS CHOLLOS DESTACADOS";
             $title="Chollos Destacados";
         }else{
@@ -53,9 +53,10 @@ class PagesController extends Controller
             $cholloNuevo-> precio_descuento=$request->precio_descuento;
             $cholloNuevo-> disponible=$request->disponible;
             $cholloNuevo->save();
-            
-            $imageName= $cholloNuevo->id."-"."chollo-severo".".".$request->imagen->extension();
-            $cholloNuevo-> imagen = $request->imagen->move(public_path('assets/images'),$imageName);
+            if($cholloNuevo->imagen===true){
+                $imageName= $cholloNuevo->id."-"."chollo-severo".".".$request->imagen->extension();
+                $cholloNuevo-> imagen = $request->imagen->move(public_path('assets/images'),$imageName);
+            }
 
 
             return back()->with('mensaje', 'Chollo agregado'); 
