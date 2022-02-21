@@ -30,3 +30,7 @@ Route::get('/{filtro?}',[PagesController::class,'index'])->name('index');
 
 /* Route::get('guardar', [PagesController::class,'guardarImagen'])->name('guardar'); */
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

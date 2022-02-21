@@ -5,6 +5,11 @@
 @endsection
 
 @section('contenido')   
+@if(session('mensaje'))
+    <div class="mensaje-nota-creada">
+        <h5 class="text-primary text-center mb-5">{{ session('mensaje') }}</h5>
+    </div>
+@endif
     <div class="d-flex flex-row bd-highlight mb-3 w-50 ml-5">
         <div class="imageDetalle p-2 bd-highlight"><img src={{asset('assets/images/'.$chollo->id.'-chollo-severo.jpg')}} width="200px" height="auto" alt="imagen chollo"></div>
         <div class="contentDetalle p-2 bd-highlight my-auto ml-5">
@@ -17,9 +22,9 @@
             <div class="ml-4 mb-4">
                 <a href={{route("editar",$chollo->id)}}><button class="btn btn-primary">Editar</button></a>
                 <form action="{{ route('eliminar', $chollo->id) }}" method="POST" class="d-inline">
-                  @method('DELETE')
-                  @csrf
-                  <a href={{route("eliminar",$chollo->id)}}><button class="btn btn-danger">Borrar</button></a>
+                    @method('DELETE')
+                    @csrf
+                    <a href={{route("eliminar",$chollo->id)}}><button class="btn btn-danger">Borrar</button></a>
                 </form>                       
             </div>
         </div>
