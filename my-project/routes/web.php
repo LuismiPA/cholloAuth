@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagesController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,13 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('nuevos', [PagesController::class,'nuevos'])->name('nuevos');
 Route::get('destacados', [PagesController::class,'destacados'])->name('destacados'); */
 
-Route::get('formChollo', [PagesController::class,'formChollo'])->name("formChollo");
-Route::get('editarChollo/{id}', [PagesController::class,'editar'])->name("editar");
-Route::put('editarChollo/{id}', [PagesController::class,'update'])->name("update");
-Route::delete('eliminar/{id}', [ PagesController::class, 'eliminar' ]) -> name('eliminar');
+Route::get('formChollo', [HomeController::class,'formChollo'])->name("formChollo");
+Route::get('editarChollo/{id}', [HomeController::class,'editar'])->name("editar");
+Route::put('editarChollo/{id}', [HomeController::class,'update'])->name("update");
+Route::delete('eliminar/{id}', [ HomeController::class, 'eliminar' ]) -> name('eliminar');
 
-Route::get('/{filtro?}',[PagesController::class,'index'])->name('index');
-    Route::post('crearChollo', [PagesController::class,'crearChollo']) ->name("crearChollo");
+Route::get('/{filtro?}',[PagesController::class,'index'])->name('index')->where('filtro', 'nuevos|destacados');
+    Route::post('crearChollo', [HomeController::class,'crearChollo']) ->name("crearChollo");
     Route::get('chollo/{id}', [PagesController::class,'detalles'])->name("detalles");
 
 
@@ -34,3 +36,6 @@ Route::get('/{filtro?}',[PagesController::class,'index'])->name('index');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+

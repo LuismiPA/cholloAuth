@@ -8,8 +8,18 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_myapp
       - MARIADB_DATABASE=bitnami_myapp
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mariadb:db
+    ports:
+      - 8081:80
+    environment:
+      MYSQL_USER: bn:myapp
   myapp:
     image: docker.io/bitnami/laravel:8
+    #command: composer require laravel/ui
     ports:
       - '8000:8000'
     environment:

@@ -1,9 +1,18 @@
 @extends('estatico')
-@section('title')
-{{$title}}
-@endsection
+<?php
+?>
+@isset($title)
+  @section('title')
+  {{$title}}
+  @endsection
+@endisset
 @section('contenido')
-<h1 class="text-center mb-5 text-primary">{{$titulo}}</h1>
+<h1 class="text-center mb-5 text-primary">
+@isset($titulo)
+  @section('titulo')
+  {{$titulo}}
+  @endsection
+@endisset</h1>
 @if(session('mensaje'))
     <div class="mensaje-nota-creada">
         <h5 class="text-primary text-center mb-5">{{ session('mensaje') }}</h5>
@@ -22,6 +31,8 @@
                           <p class="card-text precioOferta d-inline ml-2">{{$chollo->precio_descuento}}</p>
                           <p class="descripcionTarjeta card-text ">{{$chollo->descripcion}}</p>
                         </div>
+                        @auth
+                        @if (auth()->user()->id === $chollo->user_id)
                         <div class="ml-4 mb-4">
                           <a href={{route("editar",$chollo->id)}}><button class="btn btn-primary">Editar</button></a>
                           <form action="{{ route('eliminar', $chollo->id) }}" method="POST" class="d-inline">
@@ -29,7 +40,9 @@
                             @csrf
                             <a href={{route("eliminar",$chollo->id)}}><button class="btn btn-danger">Borrar</button></a>
                           </form>                       
-                          </div>
+                          </div>    
+                        @endif
+                        @endauth
                       </div>
                   </a>
                 </div>

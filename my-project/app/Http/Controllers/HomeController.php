@@ -5,34 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Chollo;
 use Illuminate\Http\Request;
 
-class PagesController extends Controller
+class HomeController extends Controller
 {
-    //
-    public function index($filtro='')
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        /* $chollos = Chollo::all(); */
-        if($filtro=="nuevos"){
-            $chollos=Chollo::orderBy('updated_at', 'ASC')->paginate(3);
-            $titulo="NUESTROS CHOLLOS MAS RECIENTES";
-            $title="Chollos nuevos";
-        }else if($filtro=="destacados"){
-            $chollos=Chollo::orderBy('precio', 'ASC')->paginate(3);
-            $titulo="NUESTROS CHOLLOS DESTACADOS";
-            $title="Chollos Destacados";
-        }else{
-            $chollos=Chollo::paginate(3);
-            $titulo="NUESTRA SELECCION DE CHOLLOS";
-            $title="Chollos";
-        }
-        
-        return view('index',compact('chollos','titulo','title'));
+        $this->middleware('auth');
     }
 
-        /* public function formChollo(){
-            return view('formChollo');
-        }
-         */
-        /* public function crearChollo(Request $request)
+    public function formChollo(){
+        return view('formChollo');
+    }
+    public function crearChollo(Request $request)
         {
             $cholloNuevo = new Chollo;
             $request -> validate([
@@ -52,6 +40,7 @@ class PagesController extends Controller
             $cholloNuevo-> precio=$request->precio;
             $cholloNuevo-> precio_descuento=$request->precio_descuento;
             $cholloNuevo-> disponible=$request->disponible;
+            $cholloNuevo-> user_id = auth()->user()->id;
             $cholloNuevo->save();
             if($cholloNuevo->imagen===true){
                 $imageName= $cholloNuevo->id."-"."chollo-severo".".".$request->imagen->extension();
@@ -59,22 +48,12 @@ class PagesController extends Controller
             }
 
 
-            return back()->with('mensaje', 'Chollo agregado'); 
+            return redirect()->route('index')->with('mensaje', 'Chollo agregado'); 
 
            
-        } */
-        public function detalles($id){
-            $chollo=Chollo::findOrFail($id);
+        } 
 
-            return view('chollo', compact('chollo'));
-        }
-
-        /* public function editar($id){
-            $chollo=Chollo::findOrFail($id);
-            return view('editarChollo', compact('chollo'));
-        }
- */
-        /* public function update(Request $request,$id){
+        public function update(Request $request,$id){
             $request -> validate([
                 'titulo' => 'required',
                 'descripcion' => 'required',
@@ -100,12 +79,26 @@ class PagesController extends Controller
                 $chollo-> imagen = $request->imagen->move(public_path('assets/images'),$imageName);
             }
             return back()->with('mensaje', 'Chollo actualizado'); ;
-        } */
+        }
 
-      /*   public function eliminar($id) {
-            $chollo = Chollo::findOrFail($id);
-            $chollo -> delete();
-          
-            return redirect('index') -> with('mensaje', 'Chollo Eliminado');
-          } */
+    public function editar($id){
+        $chollo=Chollo::findOrFail($id);
+        return view('editarChollo', compact('chollo'));
+    }
+
+    public function eliminar($id) {
+        $chollo = Chollo::findOrFail($id);
+        $chollo -> delete();
+      
+        return back() -> with('mensaje', 'Chollo Eliminado');
+      }
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('index');
+    }
 }

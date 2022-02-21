@@ -23,6 +23,7 @@ class CholloFactory extends Factory
             'precio' => $this->faker->randomDigit(),
             'precio_descuento' => $this->faker->randomDigit(),
             'disponible' => $this->faker->boolean(),
+            'user_id'=> 0,
         ];
     }
 }

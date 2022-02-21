@@ -22,7 +22,8 @@ class CreateChollosTable extends Migration
             $table->string('categoria');
             $table->decimal('precio');
             $table->decimal('precio_descuento');
-            $table->boolean('disponible');  
+            $table->boolean('disponible'); 
+            $table->integer('user_id');
         });
     }
 
